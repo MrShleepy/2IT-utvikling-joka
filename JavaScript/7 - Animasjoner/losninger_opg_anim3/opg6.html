@@ -1,11 +1,72 @@
 <!DOCTYPE html>
-<html lang="no">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <style>
+        #ball {
+            background-color: blueviolet;
+            width: 50px;
+            height: 50px;
+            position: absolute;
+            border-radius: 50%;
+        }
+    </style>
 </head>
 <body>
-    
+    <div id="ball"></div>
+
+    <script>
+        function sjekkKolisjoner() {
+            // Sjekk høyre vegg
+            if (posX > window.innerWidth - 50) {
+                fartX = -fartX;
+            } 
+            // Sjekk venstre vegg
+            else if (posX < 0) {
+                fartX = -fartX;
+            }
+
+            // Sjekk bunn
+            if (posY > window.innerHeight - 50) {
+                fartY = -fartY;
+            } 
+            // Sjekk topp
+            else if (posY < 0) {
+                fartY = -fartY;
+            }
+        }
+
+        function animerBall() {
+            // Reng ut ny posisjon
+            posX += fartX;
+            posY += fartY;
+            // Oppdater visningen av ballen
+            ball.style.left = posX + "px";
+            ball.style.top = posY + "px";
+            // Sjekk kollisjoner
+            sjekkKolisjoner();
+
+            requestAnimationFrame(animerBall);
+        }
+
+        function startPåNytt() {
+            posX = Math.floor(Math.random() * (window.innerWidth - 50));
+            posY = Math.floor(Math.random() * (window.innerHeight - 50));
+        }
+
+        // TODO: Legg til bevegelse i y-retningen
+
+        let posX = 400;
+        let posY = 300;
+        let fartX = 3;
+        let fartY = 3;
+        // Start animasjon
+        setInterval(() => {
+            startPåNytt();
+            requestAnimationFrame(animerBall);
+        }, 4000); // Start på nytt hvert 4. sekund
+    </script>
 </body>
 </html>
